@@ -79,9 +79,12 @@ public class SysUserServiceImpl implements SysUserService {
         Set<String> roles = sysRoleDao.findRoleNamesByUser(sysUser);
         SysMenu sysMenu = new SysMenu();
         sysMenu.getCondition().put("list", roles);
+
         //根据角色信息，查询所拥有的菜单
         //格式化菜单
-        List<SysMenu> formatMenuList = MenuUtil.formatMenuList(sysMenuDao.findList(sysMenu), false);
+
+        List<SysMenu> list = sysMenuDao.findList(sysMenu);
+        List<SysMenu> formatMenuList = MenuUtil.formatMenuList(list, false);
         return formatMenuList;
     }
 
@@ -92,16 +95,17 @@ public class SysUserServiceImpl implements SysUserService {
 
     /**
      * 修改用户信息
+     *
      * @param sysUser
      */
     @Override
     public void update(SysUser sysUser) throws CustomException {
         SysUser findUser = sysUserDao.searchPhone(sysUser);
-        if(findUser!=null){
+        if (findUser != null) {
             throw new CustomException(ResultEnum.PHONE_IS_EXIST);
         }
         findUser = sysUserDao.findByIdNumber(sysUser);
-        if(findUser!=null){
+        if (findUser != null) {
             throw new CustomException(ResultEnum.ID_NUMBER_IS_EXIST);
         }
         sysUser.setModifyTime(new Date());
@@ -109,17 +113,18 @@ public class SysUserServiceImpl implements SysUserService {
         UserRole userRole = new UserRole();
         userRole.setUserId(sysUser.getUserId());
         userRole.setRoleId(sysUser.getRole().getRoleId());
-        if(sysUser.getRole().getRoleId()!=null){
+        if (sysUser.getRole().getRoleId() != null) {
             userRoleDao.update(userRole);
         }
     }
 
     /**
      * 添加用户
+     *
      * @param sysUser
      */
     @Override
-    public void addUser(SysUser sysUser) throws CustomException{
+    public void addUser(SysUser sysUser) throws CustomException {
         SysUser findUser = sysUserDao.searchLoginCode(sysUser.getLoginCode());
         if (findUser != null) {
             //code 101 msg 账号已注册
@@ -127,7 +132,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
         //电话不能重复
         findUser = sysUserDao.searchPhone(sysUser);
-        if(findUser!=null){
+        if (findUser != null) {
             throw new CustomException(ResultEnum.PHONE_IS_EXIST);
         }
         findUser = sysUserDao.findByIdNumber(sysUser);
@@ -152,6 +157,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     /**
      * 分页查询
+     *
      * @param userRequest
      * @return
      */
@@ -182,16 +188,18 @@ public class SysUserServiceImpl implements SysUserService {
      * 根据id删除用户
      */
     @Override
-    public void deleteByIds(String strIds) throws CustomException{
+    public void deleteByIds(String strIds) throws CustomException {
         List<Long> idList = SplitIdsUtil.splitStrIds(strIds);
         int effectNum = sysUserDao.deleteByIds(idList);
-        if(effectNum<0){
+        if (effectNum < 0) {
             //删除失败 code 101 msg "删除失败"
             throw new CustomException(ResultEnum.DEL_DB_FAIL);
         }
     }
+
     /**
      * 根据id查用户
+     *
      * @return
      */
     @Override
@@ -201,25 +209,27 @@ public class SysUserServiceImpl implements SysUserService {
 
     /**
      * 重置密码
+     *
      * @param sysUser
      */
-    public void resetPwd(SysUser sysUser){
+    public void resetPwd(SysUser sysUser) {
         sysUserDao.update(sysUser);
     }
 
     /**
      * 修改密码
+     *
      * @param sysUser
      */
     @Override
     public void updatePwd(SysUser sysUser) {
-       SysUser findUser = sysUserDao.findById(sysUser.getUserId());
-       if(!findUser.getPassword().equals(sysUser.getOldPwd())){
-           throw  new CustomException(ResultEnum.PWD_ERROR);
-       }
-       SysUser user = new SysUser();
-       user.setUserId(sysUser.getUserId());
-       user.setPassword(sysUser.getNewPwd());
-       sysUserDao.update(user);
+        SysUser findUser = sysUserDao.findById(sysUser.getUserId());
+        if (!findUser.getPassword().equals(sysUser.getOldPwd())) {
+            throw new CustomException(ResultEnum.PWD_ERROR);
+        }
+        SysUser user = new SysUser();
+        user.setUserId(sysUser.getUserId());
+        user.setPassword(sysUser.getNewPwd());
+        sysUserDao.update(user);
     }
 }

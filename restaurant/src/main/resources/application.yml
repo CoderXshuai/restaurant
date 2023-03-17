@@ -2,10 +2,10 @@
 spring:
   #数据源配置
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: restaurant
     password: root
-    url: jdbc:mysql://124.70.128.29:3306/restaurant?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://124.70.128.29:3306/restaurant?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     hikari:
       read-only: false
       connection-timeout: 30000
@@ -19,8 +19,10 @@ spring:
   thymeleaf:
     cache: false
     mode: LEGACYHTML5
+    prefix: classpath:/templates
   #配置时间(接口将字符串映射到实体的date类型时会用到，不配置时间会有偏差)
-  jackson: time-zone=GMT+8
+  jackson:
+    time-zone: GMT+8
   #表示所有的访问都经过静态资源路径
   mvc:
     static-path-pattern: /**
@@ -33,7 +35,6 @@ spring:
 #配置日志信息
 logging:
   level:
-    root: info
     com.lzy.liujing.restaurant: debug
 
 #配置mybatis
@@ -64,5 +65,5 @@ server:
     context-path: /restaurant
 
 web:
-  upload-image-path: D:\IDEAProject\restaurant\images\restaurant\upload
+  upload-image-path: /www/wwwroot/upload
 

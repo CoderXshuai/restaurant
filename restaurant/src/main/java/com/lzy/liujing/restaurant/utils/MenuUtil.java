@@ -1,6 +1,7 @@
 package com.lzy.liujing.restaurant.utils;
 
 import com.lzy.liujing.restaurant.entity.SysMenu;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class MenuUtil {
          * 查找直接子菜单
          */
         for(SysMenu menu:rootMenu){
-            if(menu.getParentId()!=0&&menu.getParentId()==menuId){
-               childMenu.add(menu);
+            if (menu.getParentId() != 0 && menu.getParentId().equals(menuId)) {
+                childMenu.add(menu);
             }
         }
         //按权重排序

@@ -2,6 +2,7 @@ package com.lzy.liujing.restaurant.entity;
 
 /**
  * http请求返回的最外层对象
+ *
  * @param <T>
  */
 public class Result<T>{

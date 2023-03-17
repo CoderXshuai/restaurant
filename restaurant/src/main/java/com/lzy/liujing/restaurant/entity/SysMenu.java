@@ -3,7 +3,6 @@ package com.lzy.liujing.restaurant.entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SysMenu extends BaseBean{
     /**
@@ -21,7 +20,7 @@ public class SysMenu extends BaseBean{
     /**
      * 父节点id集
      */
-    private Long parentIds;
+//    private Long parentIds;
     /**
      * 是否显示
      */
@@ -78,13 +77,13 @@ public class SysMenu extends BaseBean{
         this.parentId = parentId;
     }
 
-    public Long getParentIds() {
-        return parentIds;
-    }
-
-    public void setParentIds(Long parentIds) {
-        this.parentIds = parentIds;
-    }
+//    public Long getParentIds() {
+//        return parentIds;
+//    }
+//
+//    public void setParentIds(Long parentIds) {
+//        this.parentIds = parentIds;
+//    }
 
     public Integer getIsShow() {
         return isShow;
@@ -159,7 +158,6 @@ public class SysMenu extends BaseBean{
                 "menuId=" + menuId +
                 ", menuName='" + menuName + '\'' +
                 ", parentId=" + parentId +
-                ", parentIds=" + parentIds +
                 ", isShow=" + isShow +
                 ", permission='" + permission + '\'' +
                 ", menuHref='" + menuHref + '\'' +
